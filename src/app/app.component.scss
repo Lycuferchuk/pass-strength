@@ -1,0 +1,28 @@
+h2 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+input {
+    width: 200px;
+    height: 30px;
+    padding-left: 15px; 
+    border-radius: 15px;
+    background-color: #e8e8e8;
+    border: none;
+    margin-bottom: 10px;
+}  
+
+.strength-section {
+    height: 6px;
+    width: 210px;
+    margin-top: 6px;
+    border-radius: 5px;
+    background-color: gray;
+}
