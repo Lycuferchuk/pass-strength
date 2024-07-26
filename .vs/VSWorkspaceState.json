@@ -2,7 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app"
+    "\\src\\app",
+    "\\src\\app\\components",
+    "\\src\\app\\components\\password-input",
+    "\\src\\app\\components\\strength-section",
+    "\\src\\app\\services"
   ],
+  "SelectedNode": "\\src\\app\\app.component.ts",
   "PreviewInSolutionExplorer": false
 }

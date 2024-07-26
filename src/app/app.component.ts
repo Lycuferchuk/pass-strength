@@ -1,48 +1,39 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { PasswordStrengthCheckService } from "./services/password-strength-check.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  providers: [PasswordStrengthCheckService]
 })
 export class AppComponent {
-  public passwordForm: FormGroup;
-  public strength: string[] = ['gray', 'gray', 'gray'];
+  public passwordForm!: FormGroup;
+  public passStrength: string[] = [];
 
-  constructor() {
+  private subscriptions: Subscription = new Subscription();
+
+  constructor(private httpService: PasswordStrengthCheckService) {
+    this.setData();
+  }
+
+  private setData() {
     this.passwordForm = new FormGroup({
       password: new FormControl(""),
     });
   }
 
   ngOnInit() {
-    this.passwordForm.get('password')?.valueChanges.subscribe(value => {
-      this.checkStrength(value);
+    const passChangeSub = this.passwordForm.get('password')?.valueChanges.subscribe(password => {
+      this.passStrength = this.httpService.checkStrength(password);
     });
+
+    this.subscriptions.add(passChangeSub)
   }
 
-  private checkStrength(password: string) {
-    if (!password) {
-      this.strength = ['gray', 'gray', 'gray'];
-    } else if (password.length < 8) {
-      this.strength = ['red', 'red', 'red'];
-    } else {
-      const hasLetters = /[a-zA-Z]/.test(password);
-      const hasDigits = /[0-9]/.test(password);
-      const hasSymbols = /[^a-zA-Z0-9]/.test(password);
-
-      this.changeColors(hasDigits, hasLetters, hasSymbols);
-    }
-  }
-
-  private changeColors(digits: boolean, letters: boolean, symbols: boolean) {
-    if (letters && digits && symbols) {
-      this.strength = ['green', 'green', 'green'];
-    } else if ((letters && digits) || (letters && symbols) || (digits && symbols)) {
-      this.strength = ['yellow', 'yellow', 'gray'];
-    } else {
-      this.strength = ['red', 'gray', 'gray'];
-    }
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

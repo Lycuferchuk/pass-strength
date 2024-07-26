@@ -1,12 +1,11 @@
 <div>
   <h2>Enter a password</h2>
-  <form [formGroup]="passwordForm" novalidate>
-    <input formControlName="password" placeholder="Password"/>
 
-    <div>
-      <div [ngStyle]="{'background-color': strength[0]}" class="strength-section"></div>
-      <div [ngStyle]="{'background-color': strength[1]}" class="strength-section"></div>
-      <div [ngStyle]="{'background-color': strength[2]}" class="strength-section"></div>
-    </div>
+  <form [formGroup]="passwordForm" novalidate>
+    <app-password-input formControlName="password">
+    </app-password-input>
+    <app-strength-section [strength]="passStrength">
+
+    </app-strength-section>
   </form>
 </div>
